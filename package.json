@@ -1,0 +1,10 @@
+{
+  "name": "traffic-interception-project-materials",
+  "private": true,
+  "version": "1.0.0",
+  "description": "资料库。网站代码位于 高尔夫模拟器项目/website（部署到 Cloudflare Worker neaglegolf-website）。",
+  "scripts": {
+    "build": "npm --prefix 高尔夫模拟器项目/website run build",
+    "deploy": "npm --prefix 高尔夫模拟器项目/website run deploy"
+  }
+}

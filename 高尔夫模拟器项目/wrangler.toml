@@ -1,0 +1,25 @@
+# ---------------------------------------------------------------------------
+# 防护配置 — 请勿删除。
+#
+# 真正的配置在 ./website/wrangler.toml，那份是唯一的“权威配置”。
+#
+# 背景：wrangler 查找配置时会先从当前目录向上逐级搜索父目录；如果找不到，
+# 它会交互式地“帮你生成一个”。此前在【本目录】里执行 `npx wrangler deploy`
+# 触发了这个流程，生成了一份 wrangler.jsonc（name = "my-worker"、
+# assets = "website"），结果部署出了一个多余的 my-worker，
+# 并把整个 website/ 目录（107 个文件）当成静态资源上传。
+#
+# 这个文件的作用：让在【本目录】误敲 `npx wrangler deploy` 时，
+# 也能部署到正确的 Worker + 正确的目录（而不是生成垃圾配置）。
+# 它镜像 ./website/wrangler.toml，内容需与之保持一致。
+# ---------------------------------------------------------------------------
+
+name = "neaglegolf-website"
+compatibility_date = "2025-08-25"
+
+# 与 website/wrangler.toml 相同：先做 HTTPS/主机名规范化，再提供静态资源。
+main = "website/worker.js"
+
+[assets]
+directory = "website/dist"
+not_found_handling = "none"

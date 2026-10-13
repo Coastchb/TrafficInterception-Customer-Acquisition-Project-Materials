@@ -5,8 +5,7 @@
   "description": "NEAGLE GOLF — static site generated from index.html by build.mjs",
   "scripts": {
     "build": "node build.mjs",
-    "deploy": "npm run build && npx wrangler deploy --config wrangler.toml",
-    "deploy:pages": "npm run build && npx wrangler pages deploy dist"
+    "deploy": "npm run build && npx --yes wrangler deploy --config wrangler.toml"
   },
   "devDependencies": {
     "wrangler": "^4.126.0"

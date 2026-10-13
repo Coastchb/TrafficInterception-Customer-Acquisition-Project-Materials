@@ -7,6 +7,15 @@
 # free of stray config files outside 高尔夫模拟器项目/website/.
 .wrangler/
 
+# 只允许下面两个位置存在 wrangler 配置，其余位置一律忽略。
+# 原因：`wrangler deploy` 会向上搜索配置，任何多出来的 wrangler.jsonc/toml
+# 都会劫持部署目标（历史上已误建出 "y" 与 "my-worker" 两个垃圾 Worker）。
+wrangler.toml
+wrangler.jsonc
+wrangler.json
+!高尔夫模拟器项目/wrangler.toml
+!高尔夫模拟器项目/website/wrangler.toml
+
 # Dependencies
 node_modules/
 
