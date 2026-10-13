@@ -1328,3 +1328,4 @@ fs.writeFileSync(path.join(DIST, '404.html'), page({
 
 console.log(`✅ Generated ${pages.length} pages + sitemap.xml + robots.txt + 404.html into ./dist`);
 console.log('   Pages:', sitemapUrls.length);
+
