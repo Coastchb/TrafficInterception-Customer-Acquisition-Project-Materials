@@ -492,6 +492,16 @@ function guideInstallationPage() {
 /* ── 4. Page wrapper ───────────────────────────────────────────── */
 // DEFAULT_OG: brand hero image used on home/section pages
 const DEFAULT_OG = 'https://pub-668f8b794c5b4860a9cb5c27e8ff77e0.r2.dev/images/card_bg_1.jpg';
+// Short commit sha stamped into every page as an HTML comment. Lets us confirm
+// from the live site which commit is actually being served (and therefore
+// whether an auto-deploy really happened). Falls back to "unknown" when the
+// tree is not a git checkout.
+const BUILD_ID = (() => {
+  try {
+    return execSync('git rev-parse --short HEAD', { cwd: ROOT, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim();
+  } catch { return 'unknown'; }
+})();
+
 function page({ title, description, extraHead = '', bodyClass = '', main, navActive = '', url = '/', ogImage = DEFAULT_OG, noindex = false }) {
   const canon = noindex ? '' : `<link rel="canonical" href="${esc(SITE + url)}">`;
   const robots = noindex ? '<meta name="robots" content="noindex, follow">' : '';
@@ -513,6 +523,7 @@ function page({ title, description, extraHead = '', bodyClass = '', main, navAct
 <html lang="en" class="scroll-smooth">
 ${h}
 <body class="overflow-x-hidden font-sans h-full flex flex-col bg-black text-white">
+<!-- build: ${BUILD_ID} -->
 ${nav(navActive)}
 <main class="flex-1 pt-16 safe-pt">
 ${main}
