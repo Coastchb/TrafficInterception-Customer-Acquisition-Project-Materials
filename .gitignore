@@ -1,0 +1,17 @@
+# macOS
+.DS_Store
+
+# Wrangler local state / caches — may contain account identifiers.
+# NOTE: never commit these; a stray wrangler.jsonc/toml in a parent directory
+# also hijacks `wrangler deploy` (it searches upwards), so keep this repo
+# free of stray config files outside 高尔夫模拟器项目/website/.
+.wrangler/
+
+# Dependencies
+node_modules/
+
+# NOTE: 高尔夫模拟器项目/website/dist is intentionally TRACKED.
+# It is build output (node build.mjs), but keeping it committed guarantees
+# `wrangler deploy` always has assets to upload even if the build step is
+# skipped or fails — this repo has already been broken once by a deploy that
+# uploaded the wrong directory.

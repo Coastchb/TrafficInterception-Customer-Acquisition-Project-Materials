@@ -1,0 +1,51 @@
+name: Deploy NEAGLE GOLF website
+
+# Replaces Cloudflare Workers Builds, whose "Initializing build environment"
+# step kept failing with an internal error on this repository.
+#
+# Required repository secrets (Settings -> Secrets and variables -> Actions):
+#   CLOUDFLARE_API_TOKEN   - API token with the "Edit Cloudflare Workers" template
+#   CLOUDFLARE_ACCOUNT_ID  - the account id shown in the Cloudflare dashboard URL
+#
+# Deploys to the Worker named in 高尔夫模拟器项目/website/wrangler.toml
+# (currently "neaglegolf-website", which serves neaglegolf.com).
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '高尔夫模拟器项目/website/**'
+      - '高尔夫模拟器项目/products/**/*.html'
+      - '.github/workflows/deploy.yml'
+  workflow_dispatch:
+
+# Never let two deploys race against each other.
+concurrency:
+  group: deploy-neaglegolf-website
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: 高尔夫模拟器项目/website
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Build static site
+        run: node build.mjs
+
+      # --config is REQUIRED: wrangler searches parent directories for
+      # wrangler.jsonc and would otherwise pick up an unrelated config.
+      - name: Deploy to Cloudflare Workers
+        run: npx --yes wrangler@4 deploy --config wrangler.toml
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
