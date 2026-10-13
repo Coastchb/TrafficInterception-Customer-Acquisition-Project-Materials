@@ -1,0 +1,151 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.wrap{padding:1.5rem 0}
+.header{text-align:center;margin-bottom:1.25rem;padding-bottom:1rem;border-bottom:0.5px solid var(--color-border-tertiary)}
+.header h1{font-size:22px;font-weight:500;color:var(--color-text-primary)}
+.header p{font-size:13px;color:var(--color-text-secondary);margin-top:4px}
+.price-tag{display:inline-block;font-size:13px;font-weight:500;padding:4px 14px;border-radius:var(--border-radius-md);background:var(--color-background-success);color:var(--color-text-success);margin-top:8px}
+.stabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:1.25rem;justify-content:center}
+.stab{font-size:12px;color:var(--color-text-secondary);background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:5px 12px;cursor:pointer;display:flex;align-items:center;gap:5px;transition:all .15s}
+.stab.active{color:var(--color-text-info);background:var(--color-background-info);border-color:var(--color-border-info)}
+.stab:hover:not(.active){border-color:var(--color-border-secondary)}
+.spanel{display:none}.spanel.active{display:block}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:.9rem 1.1rem}
+.lbl{font-size:11px;color:var(--color-text-secondary);margin-bottom:4px;display:flex;align-items:center;gap:4px}
+.val{font-size:14px;font-weight:500;color:var(--color-text-primary);line-height:1.4}
+.sub{font-size:11px;color:var(--color-text-secondary);margin-top:3px}
+.hi{background:var(--color-background-info);border-color:var(--color-border-info)}
+.hi .lbl{color:var(--color-text-info)}.hi .val{color:var(--color-text-info)}
+.sec{font-size:12px;font-weight:500;color:var(--color-text-secondary);margin:1rem 0 8px;text-transform:uppercase;letter-spacing:.04em}
+</style>
+
+<div class="wrap">
+<h2 class="sr-only">GOLFPAI X1 Smart Driving Range — full product specifications</h2>
+<div class="header">
+  <h1>GOLFPAI X1 — Smart Driving Range Solution</h1>
+</div>
+
+<div class="stabs" id="x1tabs">
+  <button class="stab active" data-p="x1-track"><i class="ti ti-eye" aria-hidden="true"></i>Tracking</button>
+  <button class="stab" data-p="x1-perf"><i class="ti ti-cpu" aria-hidden="true"></i>Performance</button>
+  <button class="stab" data-p="x1-soft"><i class="ti ti-tournament" aria-hidden="true"></i>Software</button>
+  <button class="stab" data-p="x1-svc"><i class="ti ti-headset" aria-hidden="true"></i>Service</button>
+</div>
+
+<div id="x1-track" class="spanel active">
+  <p class="sec">Radar + Vision Dual Engine</p>
+  <div class="grid">
+    <div class="card"><div class="lbl"><i class="ti ti-radar" aria-hidden="true"></i>Technology</div><div class="val">Radar + High-Speed Vision</div><div class="sub">World's first dual-sensor ballistic system</div></div>
+    <div class="card"><div class="lbl"><i class="ti ti-target" aria-hidden="true"></i>Theoretical Accuracy</div><div class="val">Up to 99.99%</div><div class="sub">AI ballistic reverse-fitting, self-evolving</div></div>
+    <div class="card"><div class="lbl"><i class="ti ti-wave-square" aria-hidden="true"></i>Radar Module</div><div class="val">High-Freq Doppler Radar</div><div class="sub">Standard ball compatible, no custom ball needed</div></div>
+    <div class="card"><div class="lbl"><i class="ti ti-camera" aria-hidden="true"></i>Vision Capture</div><div class="val">6,000 FPS</div><div class="sub">Dual industrial high-speed cameras</div></div>
+  </div>
+  <p class="sec">Vision Sensor Details</p>
+  <div class="grid">
+    <div class="card"><div class="lbl"><i class="ti ti-target" aria-hidden="true"></i>Vision Recognition Rate</div><div class="val">≥ 99%</div><div class="sub">Proprietary image recognition engine</div></div>
+    <div class="card"><div class="lbl"><i class="ti ti-flag" aria-hidden="true"></i>Zone Auto-Detection</div><div class="val">Rough, bunker, fairway, tee</div></div>
+    <div class="card"><div class="lbl"><i class="ti ti-chart-line" aria-hidden="true"></i>Shot Shape Analysis</div><div class="val">Draw, fade, chip, flop & more</div></div>
+    <div class="card"><div class="lbl"><i class="ti ti-golf" aria-hidden="true"></i>Club Compatibility</div><div class="val">All club types & colors</div></div>
+    <div class="card"><div class="lbl"><i class="ti ti-arrows-left-right" aria-hidden="true"></i>Handedness</div><div class="val">Left / Right Auto-switch</div></div>
+    <div class="card"><div class="lbl"><i class="ti ti-rotate" aria-hidden="true"></i>Shot Replay</div><div class="val">High-frame image replay</div><div class="sub">Repeatable frame-by-frame review</div></div>
+  </div>
+</div>
+
+<div id="x1-perf" class="spanel">
+  <p class="sec">Integrated Machine (Windows 10)</p>
+  <div class="grid">
+    <div class="card"><div class="lbl"><i class="ti ti-cpu" aria-hidden="true"></i>CPU</div><div class="val">Intel i5-12400F</div><div class="sub">12 threads, up to 4.4GHz boost</div></div>
+    <div class="card"><div class="lbl"><i class="ti ti-brand-nvidia" aria-hidden="true"></i>GPU</div><div class="val">NVIDIA RTX 4060Ti</div><div class="sub">8GB VRAM, 4608 CUDA cores</div></div>
+    <div class="card"><div class="lbl"><i class="ti ti-server" aria-hidden="true"></i>RAM</div><div class="val">16 GB DDR4 Dual-Channel</div></div>
+    <div class="card"><div class="lbl"><i class="ti ti-device-desktop" aria-hidden="true"></i>Built-in Display</div><div class="val">43 inches</div><div class="sub">High-brightness outdoor sunlight touchscreen</div></div>
+    <div class="card"><div class="lbl"><i class="ti ti-circuit-board" aria-hidden="true"></i>Motherboard</div><div class="val">Industrial Control Board</div><div class="sub">Custom BIOS, high stability & compatibility</div></div>
+  </div>
+</div>
+
+<div id="x1-soft" class="spanel">
+  <p class="sec">Courses & Modes</p>
+  <div class="grid">
+    <div class="card"><div class="lbl"><i class="ti ti-map" aria-hidden="true"></i>Course Library</div><div class="val">50+ World-Famous Courses</div></div>
+    <div class="card"><div class="lbl"><i class="ti ti-cloud" aria-hidden="true"></i>Environment Simulation</div><div class="val">Wind, weather, altitude</div><div class="sub">PhysX engine support</div></div>
+    <div class="card"><div class="lbl"><i class="ti ti-school" aria-hidden="true"></i>Practice Mode</div><div class="val">Swing, Chip, Putt</div><div class="sub">Bunker & water hazard specialty modes</div></div>
+    <div class="card"><div class="lbl"><i class="ti ti-world" aria-hidden="true"></i>Remote Multiplayer</div><div class="val">Up to 6 players online</div><div class="sub">Live video call during play</div></div>
+    <div class="card"><div class="lbl"><i class="ti ti-trophy" aria-hidden="true"></i>Tournament Mode</div><div class="val">Regular, Tour, Long Drive</div><div class="sub">Custom event creation</div></div>
+    <div class="card"><div class="lbl"><i class="ti ti-device-gamepad" aria-hidden="true"></i>Metaverse Entertainment</div><div class="val">5 Game Modes</div><div class="sub">Cyberpunk City, Floating Island & more</div></div>
+    <div class="card"><div class="lbl"><i class="ti ti-users" aria-hidden="true"></i>Kids Mode</div><div class="val">Cartoon Course</div></div>
+    <div class="card"><div class="lbl"><i class="ti ti-robot" aria-hidden="true"></i>AI Caddie</div><div class="val">Shot Advice + Putt Assist</div><div class="sub">Hole analysis & hazard tips</div></div>
+    <div class="card"><div class="lbl"><i class="ti ti-cloud-upload" aria-hidden="true"></i>Data Management</div><div class="val">Cloud Score History</div><div class="sub">Mobile APP sync</div></div>
+  </div>
+  <p class="sec">Signature Content</p>
+  <div class="grid">
+    <div class="card"><div class="lbl"><i class="ti ti-palette" aria-hidden="true"></i>Chinese Heritage Course</div><div class="val">"A Thousand Miles of Rivers"</div><div class="sub">Eastern aesthetic meets golf</div></div>
+    <div class="card"><div class="lbl"><i class="ti ti-flower" aria-hidden="true"></i>Blossom Driving Range</div><div class="val">Cherry Blossom Theme</div><div class="sub">Interactive surprises throughout practice</div></div>
+  </div>
+</div>
+
+<div id="x1-svc" class="spanel">
+  <p class="sec">After-Sales Support</p>
+  <div class="grid">
+    <div class="card hi">
+      <div class="lbl">Customer Support</div>
+      <div class="val">7×24 Hours</div>
+      <div class="sub">Round-the-clock after-sales service, any time you need us</div>
+    </div>
+    <div class="card hi">
+      <div class="lbl">Warranty</div>
+      <div class="val">1-Year Warranty</div>
+      <div class="sub">Full coverage on parts and workmanship for one year from delivery</div>
+    </div>
+    <div class="card hi">
+      <div class="lbl">Repair Service</div>
+      <div class="val">Lifetime Repair</div>
+      <div class="sub">Ongoing repair support for the life of the product</div>
+    </div>
+  </div>
+  <p class="sec">Shipping &amp; Installation</p>
+  <p class="sec">Shipping & Installation</p>
+  <div class="grid">
+    <div class="card">
+      <div class="lbl">Worldwide Shipping</div>
+      <div class="val">Global Delivery Available</div>
+    </div>
+    <div class="card">
+      <div class="lbl">Lead Time</div>
+      <div class="val">7 Days</div>
+      <div class="sub">Stock preparation after order confirmation</div>
+    </div>
+    <div class="card">
+      <div class="lbl">Sea Freight</div>
+      <div class="val">~45 Days</div>
+    </div>
+    <div class="card">
+      <div class="lbl">Express Sea</div>
+      <div class="val">~30 Days</div>
+    </div>
+    <div class="card">
+      <div class="lbl">Air Freight</div>
+      <div class="val">~7 Days</div>
+    </div>
+    <div class="card">
+      <div class="lbl">Remote Installation</div>
+      <div class="val">Floor Plans + Video Guidance</div>
+      <div class="sub">Standard for all orders</div>
+    </div>
+    <div class="card">
+      <div class="lbl">On-site Installation</div>
+      <div class="val">By Arrangement</div>
+      <div class="sub">Available upon separate request</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<script>
+document.getElementById('x1tabs').addEventListener('click',function(e){
+  var b=e.target.closest('.stab');if(!b)return;
+  document.querySelectorAll('#x1tabs .stab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('#x1-track,#x1-perf,#x1-soft,#x1-svc').forEach(p=>p.classList.remove('active'));
+  b.classList.add('active');document.getElementById(b.dataset.p).classList.add('active');
+});
+</script>

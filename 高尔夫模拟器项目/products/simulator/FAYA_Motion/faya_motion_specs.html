@@ -1,0 +1,334 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.wrap{padding:1.5rem 0}
+.header{text-align:center;margin-bottom:1.25rem;padding-bottom:1rem;border-bottom:0.5px solid var(--color-border-tertiary)}
+.header h1{font-size:22px;font-weight:500;color:var(--color-text-primary)}
+.header p{font-size:13px;color:var(--color-text-secondary);margin-top:4px}
+.stabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:1.25rem}
+.stab{font-size:12px;color:var(--color-text-secondary);background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:5px 12px;cursor:pointer;transition:all .15s}
+.stab.active{color:var(--color-text-info);background:var(--color-background-info);border-color:var(--color-border-info)}
+.stab:hover:not(.active){border-color:var(--color-border-secondary)}
+.spanel{display:none}.spanel.active{display:block}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:.9rem 1.1rem}
+.lbl{font-size:11px;color:var(--color-text-secondary);margin-bottom:4px}
+.val{font-size:14px;font-weight:500;color:var(--color-text-primary);line-height:1.4}
+.sub{font-size:11px;color:var(--color-text-secondary);margin-top:3px}
+.hi{background:var(--color-background-info);border-color:var(--color-border-info)}
+.hi .lbl{color:var(--color-text-info)}.hi .val{color:var(--color-text-info)}
+.sec{font-size:12px;font-weight:500;color:var(--color-text-secondary);margin:1rem 0 8px;text-transform:uppercase;letter-spacing:.04em}
+.sec:first-child{margin-top:0}
+.badge{display:inline-block;font-size:11px;padding:2px 8px;border-radius:var(--border-radius-md);background:var(--color-background-success);color:var(--color-text-success);margin-top:4px}
+.item{display:flex;align-items:baseline;gap:8px;padding:6px 0;border-bottom:0.5px solid var(--color-border-tertiary)}
+.item:last-child{border-bottom:none}
+.dot{width:4px;height:4px;border-radius:50%;background:var(--color-text-info);flex-shrink:0;margin-top:7px}
+.itxt{font-size:13px;color:var(--color-text-primary);line-height:1.5}
+</style>
+
+<div class="wrap">
+<div class="header">
+  <h1>FAYA Motion — Golf Simulator</h1>
+</div>
+
+<div class="stabs" id="tabs">
+  <button class="stab active" data-p="tracking">Tracking</button>
+  <button class="stab" data-p="display">Display</button>
+  <button class="stab" data-p="software">Software</button>
+  <button class="stab" data-p="entertain">Entertainment</button>
+  <button class="stab" data-p="solution">Solution</button>
+  <button class="stab" data-p="faya-svc">Service</button>
+</div>
+
+<!-- Tracking -->
+<div id="tracking" class="spanel active">
+  <p class="sec">Dual-Sensor Core</p>
+  <div class="grid">
+    <div class="card">
+      <div class="lbl">Sensor Architecture</div>
+      <div class="val">IDS Dual High-Speed Camera + Precision Rotation Sensor</div>
+      <div class="sub">Dual-core design far exceeds single-sensor industry standard</div>
+    </div>
+    <div class="card">
+      <div class="lbl">Detection Coverage</div>
+      <div class="val">Full 360° No Dead Zone</div>
+      <div class="sub">Ball spin, flight trajectory & clubhead motion all captured</div>
+    </div>
+    <div class="card">
+      <div class="lbl">High-Loft Detection</div>
+      <div class="val">60°+ Launch Angle</div>
+      <div class="sub">Accurately captures high-loft & specialty shots</div>
+    </div>
+    <div class="card">
+      <div class="lbl">False Trigger Protection</div>
+      <div class="val">Practice Swing Safe</div>
+      <div class="sub">No erroneous ball detection on empty swings</div>
+    </div>
+  </div>
+  <p class="sec">Professional Data Output</p>
+  <div class="grid">
+    <div class="card">
+      <div class="lbl">Ball Data</div>
+      <div class="val">Speed · Launch Angle · Backspin · Sidespin</div>
+    </div>
+    <div class="card">
+      <div class="lbl">Club Data</div>
+      <div class="val">Club Face Angle · Landing Point</div>
+    </div>
+    <div class="card">
+      <div class="lbl">Video Tools</div>
+      <div class="val">Replay · Slow Motion · Swing Comparison</div>
+      <div class="sub">Precise posture correction for all skill levels</div>
+    </div>
+    <div class="card">
+      <div class="lbl">Handedness & Position</div>
+      <div class="val">Left / Right · Free Stance</div>
+      <div class="sub">No fixed hitting position required</div>
+    </div>
+  </div>
+</div>
+
+<!-- Display -->
+<div id="display" class="spanel">
+  <p class="sec">Projection System</p>
+  <div class="grid">
+    <div class="card">
+      <div class="lbl">Projector</div>
+      <div class="val">Epson Professional</div>
+      <div class="sub">3,500+ lumens standard configuration</div>
+    </div>
+    <div class="card">
+      <div class="lbl">Resolution</div>
+      <div class="val">Full HD 2K</div>
+      <div class="sub">1920 × 1200P, vivid color reproduction</div>
+    </div>
+    <div class="card">
+      <div class="lbl">Lens Features</div>
+      <div class="val">Lens Shift + Dust Filter</div>
+      <div class="sub">Flexible installation, protected optics</div>
+    </div>
+    <div class="card">
+      <div class="lbl">Signal Transmission</div>
+      <div class="val">HDBaseT</div>
+      <div class="sub">Long-distance, lossless transmission, no lag</div>
+    </div>
+    <div class="card">
+      <div class="lbl">Ambient Light Performance</div>
+      <div class="val">Bright-Environment Ready</div>
+      <div class="sub">Clear visibility even under strong ambient light</div>
+    </div>
+  </div>
+  <p class="sec">Impact Screen</p>
+  <div class="grid">
+    <div class="card">
+      <div class="lbl">Screen Type</div>
+      <div class="val">Custom Anti-Impact Acoustic Screen</div>
+      <div class="sub">Built-in optical layer, withstands repeated ball impact</div>
+    </div>
+    <div class="card">
+      <div class="lbl">Multi-Use Compatibility</div>
+      <div class="val">Golf · Cinema · KTV</div>
+      <div class="sub">Acoustic transparency for full audio performance</div>
+    </div>
+  </div>
+</div>
+
+<!-- Software -->
+<div id="software" class="spanel">
+  <p class="sec">Courses & Engine</p>
+  <div class="grid">
+    <div class="card">
+      <div class="lbl">Course Library</div>
+      <div class="val">100+ International Courses</div>
+      <div class="sub">Full 18-hole real-world venues</div>
+    </div>
+    <div class="card">
+      <div class="lbl">Game Engine</div>
+      <div class="val">64GBit 3D Engine</div>
+      <div class="sub">Full HD, highly realistic visuals with strong on-site feel</div>
+    </div>
+    <div class="card">
+      <div class="lbl">Rules Design</div>
+      <div class="val">Full Official Golf Rules</div>
+      <div class="sub">Real competition operation throughout</div>
+    </div>
+    <div class="card">
+      <div class="lbl">Course & Hole Selection</div>
+      <div class="val">Fully Customizable</div>
+      <div class="sub">Free course & hole selection per session</div>
+    </div>
+    <div class="card">
+      <div class="lbl">Environment Settings</div>
+      <div class="val">Weather · Wind Direction · Wind Speed</div>
+      <div class="sub">Freely adjustable per round</div>
+    </div>
+    <div class="card">
+      <div class="lbl">Language Support</div>
+      <div class="val">Chinese · Japanese · Korean · English</div>
+    </div>
+  </div>
+  <p class="sec">Game & Practice Modes</p>
+  <div class="grid">
+    <div class="card">
+      <div class="lbl">Competition Mode</div>
+      <div class="val">1–8 Players Simultaneous</div>
+      <div class="sub">Stroke play & match play supported</div>
+    </div>
+    <div class="card">
+      <div class="lbl">Practice Mode</div>
+      <div class="val">Drive · Approach · Chip · Bunker · Putt</div>
+      <div class="sub">Full skill-chain specialist training</div>
+    </div>
+    <div class="card">
+      <div class="lbl">Lifetime Upgrades</div>
+      <div class="val">Free — Courses & Software</div>
+      <div class="sub">New courses, feature updates & stability improvements</div>
+      <div><span class="badge">Lifetime free</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- Entertainment -->
+<div id="entertain" class="spanel">
+  <p class="sec">All-in-One Modes</p>
+  <div class="grid">
+    <div class="card">
+      <div class="lbl">Integrated Modes</div>
+      <div class="val">Golf · Cinema · KTV</div>
+      <div class="sub">One-touch seamless switching, no re-configuration needed</div>
+    </div>
+    <div class="card">
+      <div class="lbl">Audio System</div>
+      <div class="val">Dolby 7.2 Surround · Professional KTV</div>
+      <div class="sub">Denon 7.2-channel AV receiver</div>
+    </div>
+  </div>
+  <p class="sec">Audio / Video Formats</p>
+  <div class="grid">
+    <div class="card">
+      <div class="lbl">Surround Formats</div>
+      <div class="val">Dolby Atmos · DTS:X</div>
+    </div>
+    <div class="card">
+      <div class="lbl">Video Passthrough</div>
+      <div class="val">8K/60Hz · HDR · HLG</div>
+    </div>
+    <div class="card">
+      <div class="lbl">Ease of Use</div>
+      <div class="val">Senior & Child Friendly</div>
+      <div class="sub">One-key switching, no technical knowledge needed</div>
+    </div>
+    <div class="card">
+      <div class="lbl">Suitable Venues</div>
+      <div class="val">Villa · Club · Showroom · Premium Golf Bay</div>
+    </div>
+  </div>
+</div>
+
+<!-- Solution -->
+<div id="solution" class="spanel">
+  <p class="sec">Complete Package</p>
+  <div class="grid">
+    <div class="card">
+      <div class="lbl">Scope of Supply</div>
+      <div class="val">Full Turnkey Solution</div>
+      <div class="sub">Simulator, projector, AV system + all accessories included</div>
+    </div>
+    <div class="card">
+      <div class="lbl">Accessories Included</div>
+      <div class="val">IR Graphics Server · 3D Mat · EU-Standard Turf</div>
+      <div class="sub">Video cable, mount, voltage stabilizer, screen clips & more</div>
+    </div>
+    <div class="card">
+      <div class="lbl">Space Flexibility</div>
+      <div class="val">No Strict Size Requirement</div>
+      <div class="sub">Customized to site — home basement, living room, commercial bay</div>
+    </div>
+    <div class="card">
+      <div class="lbl">Suitable Venues</div>
+      <div class="val">Villa · Club · Hotel · Showroom · Golf Bay</div>
+    </div>
+  </div>
+  <p class="sec">After-Sales</p>
+  <div class="grid">
+    <div class="card">
+      <div class="lbl">Warranty</div>
+      <div class="val">Lifetime After-Sales Service</div>
+      <div class="sub">Installation, commissioning, maintenance, repair & software upgrades</div>
+      <div><span class="badge">Lifetime</span></div>
+    </div>
+    <div class="card">
+      <div class="lbl">Software Updates</div>
+      <div class="val">Free Lifetime Upgrades</div>
+      <div class="sub">Courses & system continuously updated</div>
+    </div>
+  </div>
+</div>
+
+
+<div id="faya-svc" class="spanel">
+  <p class="sec">After-Sales Support</p>
+  <div class="grid">
+    <div class="card hi">
+      <div class="lbl">Customer Support</div>
+      <div class="val">7×24 Hours</div>
+      <div class="sub">Round-the-clock after-sales service, any time you need us</div>
+    </div>
+    <div class="card hi">
+      <div class="lbl">Warranty</div>
+      <div class="val">1-Year Warranty</div>
+      <div class="sub">Full coverage on parts and workmanship for one year from delivery</div>
+    </div>
+    <div class="card hi">
+      <div class="lbl">Repair Service</div>
+      <div class="val">Lifetime Repair</div>
+      <div class="sub">Ongoing repair support for the life of the product</div>
+    </div>
+  </div>
+  <p class="sec">Shipping &amp; Installation</p>
+  <p class="sec">Shipping & Installation</p>
+  <div class="grid">
+    <div class="card">
+      <div class="lbl">Worldwide Shipping</div>
+      <div class="val">Global Delivery Available</div>
+    </div>
+    <div class="card">
+      <div class="lbl">Lead Time</div>
+      <div class="val">7 Days</div>
+      <div class="sub">Stock preparation after order confirmation</div>
+    </div>
+    <div class="card">
+      <div class="lbl">Sea Freight</div>
+      <div class="val">~45 Days</div>
+    </div>
+    <div class="card">
+      <div class="lbl">Express Sea</div>
+      <div class="val">~30 Days</div>
+    </div>
+    <div class="card">
+      <div class="lbl">Air Freight</div>
+      <div class="val">~7 Days</div>
+    </div>
+    <div class="card">
+      <div class="lbl">Remote Installation</div>
+      <div class="val">Floor Plans + Video Guidance</div>
+      <div class="sub">Standard for all orders</div>
+    </div>
+    <div class="card">
+      <div class="lbl">On-site Installation</div>
+      <div class="val">By Arrangement</div>
+      <div class="sub">Available upon separate request</div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+document.getElementById('tabs').addEventListener('click',function(e){
+  var b=e.target.closest('.stab');if(!b)return;
+  document.querySelectorAll('.stab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.spanel').forEach(p=>p.classList.remove('active'));
+  b.classList.add('active');document.getElementById(b.dataset.p).classList.add('active');
+});
+</script>
