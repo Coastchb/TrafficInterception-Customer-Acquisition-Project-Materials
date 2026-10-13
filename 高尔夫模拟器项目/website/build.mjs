@@ -551,6 +551,9 @@ function addPage(relPath, opts) {
   sitemapUrls.push(SITE + url);
 }
 
+// Declared early so it can be reused by both the home page and the case-studies pages.
+const caseSlug = (c) => `/case-studies/${c.id}/`;
+
 /* 6a. HOME */
 const faqSchema = {
   '@context': 'https://schema.org', '@type': 'FAQPage',
@@ -643,6 +646,19 @@ addPage('index.html', {
       ${catalogDb.dispenserMachines.items.map(p => productCard('dispenserMachines', p)).join('')}
     </div>
     <div class="mt-10"><a href="/golf-simulators/" class="btn-ghost rounded-full px-8 py-3.5 text-sm font-semibold inline-flex items-center gap-2"><i class="fa-solid fa-arrow-right"></i> Browse Complete Catalog</a></div>
+  </section>
+
+  <section class="max-w-7xl mx-auto px-4 md:px-6 pt-20 md:pt-28">
+    <h2 class="text-3xl md:text-4xl font-bold tracking-tight mb-8">Featured Cases</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
+      ${caseStudies.slice(0,3).map(c => `
+      <a href="${caseSlug(c)}" class="card-glow block rounded-3xl overflow-hidden bg-zinc-950/60 border border-white/8 p-5 hover:border-golfGreen/40 transition-all">
+        <div class="aspect-[16/9] rounded-2xl overflow-hidden mb-4 bg-zinc-900"><img src="${c.image}" alt="${esc(c.title)}" loading="lazy" class="w-full h-full object-cover"></div>
+        <h3 class="text-lg font-semibold text-white mb-2">${esc(c.title)}</h3>
+        <p class="text-zinc-400 text-sm leading-relaxed">${esc(c.description)}</p>
+      </a>`).join('')}
+    </div>
+    <div class="mt-10"><a href="/case-studies/" class="btn-ghost rounded-full px-8 py-3.5 text-sm font-semibold inline-flex items-center gap-2"><i class="fa-solid fa-arrow-right"></i> Browse More Cases</a></div>
   </section>
 
   <section class="max-w-7xl mx-auto px-4 md:px-6 pt-20 md:pt-28 pb-4">
@@ -1021,9 +1037,16 @@ const CASE_FACTS = {
     ['Facility', 'Sun Room Conversion'],
     ['Simulator', 'RG Eagleye III with Auto Tee'],
     ['Project', 'Multi-Entertainment Suite']
+  ],
+  'us-golf-pod': [
+    ['Client', 'North Carolina State University'],
+    ['Location', 'Greensboro, North Carolina, USA'],
+    ['Facility', 'On-Campus Golf & Performance Center'],
+    ['Scope', 'Plan + On-site Build'],
+    ['Simulator', 'Custom Simulator Pod'],
+    ['Project', 'Turnkey Installation']
   ]
 };
-const caseSlug = (c) => `/case-studies/${c.id}/`;
 const caseCards = caseStudies.map(c => `
   <a href="${caseSlug(c)}" class="card-glow block rounded-3xl overflow-hidden bg-zinc-950/60 border border-white/8 p-5 hover:border-golfGreen/40 transition-all">
     <div class="aspect-[16/9] rounded-2xl overflow-hidden mb-4 bg-zinc-900"><img src="${c.image}" alt="${esc(c.title)}" loading="lazy" class="w-full h-full object-cover"></div>
@@ -1072,6 +1095,28 @@ for (const c of caseStudies) {
     publisher: { '@type': 'Organization', name: 'NEAGLE GOLF', url: SITE + '/', '@id': SITE + '/#organization' },
     mainEntityOfPage: { '@type': 'WebPage', '@id': csUrl }
   };
+  const galleryHtml = (c.gallery && c.gallery.length) ? `
+    <div class="mt-10">
+      <h2 class="text-white font-semibold text-lg mb-4">On-Site Photos</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        ${c.gallery.map(src => `<div class="rounded-2xl overflow-hidden bg-zinc-900"><img src="${src}" alt="${esc(c.title)} on-site photo" loading="lazy" class="w-full h-full object-cover"></div>`).join('')}
+      </div>
+    </div>` : '';
+  const planHtml = c.planImage ? `
+    <div class="mt-10">
+      <h2 class="text-white font-semibold text-lg mb-4">Plan Drawing</h2>
+      <a href="${c.planPdf || c.planImage}" target="_blank" class="block rounded-2xl overflow-hidden bg-zinc-900 border border-white/8 hover:border-golfGreen/40 transition-all">
+        <img src="${c.planImage}" alt="${esc(c.title)} plan drawing" loading="lazy" class="w-full">
+      </a>
+    </div>` : '';
+  const drawingHtml = c.drawingPdf ? `
+    <div class="mt-10 glass rounded-2xl p-6 md:p-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+      <div>
+        <h2 class="text-white font-semibold text-lg mb-1">Construction Drawings</h2>
+        <p class="text-zinc-400 text-sm">Download the full construction drawing set for this project.</p>
+      </div>
+      <a href="${c.drawingPdf}" target="_blank" download class="btn-glow rounded-full px-6 py-3 text-sm font-semibold inline-flex items-center gap-2"><i class="fa-solid fa-file-pdf"></i> Download PDF</a>
+    </div>` : '';
   const related = caseStudies.filter(x => x.id !== c.id).slice(0, 3).map(x =>
     `<a href="${caseSlug(x)}" class="card-glow block rounded-2xl overflow-hidden bg-zinc-950/60 border border-white/8 p-4 hover:border-golfGreen/40 transition-all">
       <div class="aspect-[16/9] rounded-xl overflow-hidden mb-3 bg-zinc-900"><img src="${x.image}" alt="${esc(x.title)}" loading="lazy" class="w-full h-full object-cover"></div>
@@ -1090,7 +1135,10 @@ for (const c of caseStudies) {
       <div class="aspect-[16/9] rounded-3xl overflow-hidden bg-zinc-900 mb-8"><img src="${c.image}" alt="${esc(c.title)}" class="w-full h-full object-cover"></div>
       <p class="text-zinc-300 text-base leading-relaxed mb-6">${esc(c.description)}</p>
       ${factsHtml}
-      <p class="text-zinc-400 text-sm leading-relaxed">This installation demonstrates how NEAGLE GOLF's tour-grade simulation and automation systems help ${esc(c.keywords || 'forward-thinking venues')} engage customers and unlock new value. Our concierge team handles planning, delivery, and on-site setup end to end.</p>
+      ${galleryHtml}
+      ${planHtml}
+      ${drawingHtml}
+      <p class="text-zinc-400 text-sm leading-relaxed mt-10">This installation demonstrates how NEAGLE GOLF's tour-grade simulation and automation systems help ${esc(c.keywords || 'forward-thinking venues')} engage customers and unlock new value. Our concierge team handles planning, delivery, and on-site setup end to end.</p>
       <div class="mt-8"><a href="https://api.whatsapp.com/send?phone=8613261563523" target="_blank" class="btn-glow rounded-full px-8 py-3.5 text-sm font-semibold inline-flex items-center gap-2"><i class="fa-brands fa-whatsapp"></i> Start Your Project</a></div>
     </section>
     <section class="max-w-7xl mx-auto px-4 md:px-6 pt-16 pb-4">
@@ -1208,6 +1256,11 @@ addPage('golf-simulators/installation/index.html', {
 
 /* ── 7. Write files + sitemap ─────────────────────────────────── */
 fs.mkdirSync(DIST, { recursive: true });
+// Copy static public assets (case-study images, PDFs, etc.) into dist
+const PUBLIC_DIR = path.join(ROOT, 'public');
+if (fs.existsSync(PUBLIC_DIR)) {
+  fs.cpSync(PUBLIC_DIR, DIST, { recursive: true, force: true, dereference: true });
+}
 for (const { relPath, opts } of pages) {
   const out = path.join(DIST, relPath);
   fs.mkdirSync(path.dirname(out), { recursive: true });
