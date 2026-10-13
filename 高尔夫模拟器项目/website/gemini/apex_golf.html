@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NexGolf | 智能高尔夫模拟器与周边配件专家</title>
+    <style>
+        :root {
+            --primary-color: #1a4329; /* 经典高尔夫深绿 */
+            --accent-color: #4cd137;  /* 科技感草绿 */
+            --dark-color: #1e272e;    /* 深灰背景 */
+            --light-color: #f5f6fa;   /* 浅灰背景 */
+            --text-color: #2f3640;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        body {
+            color: var(--text-color);
+            line-height: 1.6;
+            background-color: #fff;
+        }
+
+        /* 导航栏 */
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .logo span { color: var(--accent-color); }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li { margin-left: 30px; }
+
+        nav ul li a {
+            color: #dcdde1;
+            text-decoration: none;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover { color: var(--accent-color); }
+
+        .btn-consult {
+            background-color: var(--accent-color);
+            color: var(--primary-color);
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: transform 0.3s;
+        }
+
+        .btn-consult:hover { transform: scale(1.05); }
+
+        /* Hero 主视觉区 */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1535131749006-b7f58c99034b?auto=format&fit=crop&w=1920&q=80') no-repeat center center/cover;
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding: 0 20px;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+        }
+
+        .hero p {
+            font-size: 20px;
+            max-width: 800px;
+            margin-bottom: 40px;
+            color: #dcdde1;
+        }
+
+        /* 版块通用样式 */
+        section { padding: 80px 10% 60px; }
+
+        .section-title {
+            text-align: center;
+            font-size: 32px;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 3px;
+            background-color: var(--accent-color);
+            margin: 10px auto 0;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 50px;
+            font-size: 16px;
+        }
+
+        /* 核心科技/优势 */
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .tech-card {
+            background: var(--light-color);
+            padding: 40px 30px;
+            border-radius: 8px;
+            text-align: center;
+            border-bottom: 4px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .tech-card:hover {
+            transform: translateY(-5px);
+            border-bottom-color: var(--accent-color);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+
+        .tech-card h3 { margin-bottom: 15px; color: var(--primary-color); }
+
+        /* 产品展示（主系统） */
+        .product-section { background-color: var(--light-color); }
+
+        .sys-container {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .sys-img {
+            flex: 1;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .sys-img img { width: 100%; height: auto; display: block; }
+
+        .sys-info { flex: 1; }
+
+        .sys-info h3 { font-size: 26px; color: var(--primary-color); margin-bottom: 20px; }
+
+        .sys-features { list-style: none; margin-bottom: 30px; }
+
+        .sys-features li {
+            margin-bottom: 12px;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .sys-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+
+        /* 周边配件系列 */
+        .acc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .acc-card {
+            border: 1px solid #e1b12c;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: shadow 0.3s;
+        }
+
+        .acc-card:hover { box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+
+        .acc-img { height: 200px; background-color: #dfe4ea; position: relative; }
+        
+        /* 占位图文字样式 */
+        .acc-img::after {
+            content: 'Product Image';
+            position: absolute; top:50%; left:50%; transform:translate(-50%, -50%);
+            color: #a4b0be; font-size: 14px;
+        }
+
+        .acc-body { padding: 20px; }
+
+        .acc-body h4 { font-size: 18px; margin-bottom: 10px; color: var(--primary-color); }
+
+        .acc-body p { font-size: 14px; color: #718093; }
+
+        /* 客户保障/全流程服务 */
+        .service-section { background-color: var(--dark-color); color: white; }
+
+        .service-section .section-title { color: white; }
+
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            text-align: center;
+        }
+
+        .service-item h4 { margin-bottom: 10px; color: var(--accent-color); font-size: 18px; }
+
+        .service-item p { font-size: 14px; color: #a4b0be; }
+
+        /* 底部表单区 */
+        .contact-section { background-color: var(--light-color); }
+
+        .contact-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .form-group { margin-bottom: 20px; }
+
+        .form-group label { display: block; margin-bottom: 8px; font-weight: bold; }
+
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .btn-submit {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            width: 100%;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn-submit:hover { background-color: #0f2b1a; }
+
+        footer {
+            background-color: #111;
+            color: #7f8c8d;
+            text-align: center;
+            padding: 20px;
+            font-size: 14px;
+            border-top: 1px solid #222;
+        }
+
+        /* 响应式适配 */
+        @media (max-width: 768px) {
+            .tech-grid, .service-grid { grid-template-columns: 1fr; }
+            .sys-container { flex-direction: column; padding: 20px; }
+            header { flex-direction: column; gap: 15px; padding: 20px; }
+            nav ul { flex-wrap: wrap; justify-content: center; gap: 10px; }
+            nav ul li { margin-left: 10px; margin-right: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 导航栏 -->
+    <header>
+        <div class="logo">Nex<span>Golf</span></div>
+        <nav>
+            <ul>
+                <li><a href="#tech">核心科技</a></li>
+                <li><a href="#simulator">主系统展示</a></li>
+                <li><a href="#accessories">周边配件</a></li>
+                <li><a href="#services">全流程服务</a></li>
+            </ul>
+        </nav>
+        <a href="#contact" class="btn-consult">立即预约/询价</a>
+    </header>
+
+    <!-- Hero 主视觉区 -->
+    <section class="hero">
+        <h1>将世界级高尔夫球场搬进您的空间</h1>
+        <p>结合前沿 AI 弹道轨迹算法与 1:1 球场还原技术，为您打造集专业教学、居家娱乐、商业运营于一体的沉浸式智能高尔夫模拟系统。</p>
+        <a href="#contact" class="btn-consult" style="padding: 15px 40px; font-size: 18px;">定制您的专属球场</a>
+    </section>
+
+    <!-- 核心优势 / 科技基础 -->
+    <section id="tech">
+        <h2 class="section-title">突破数据的极限</h2>
+        <p class="section-subtitle">高速相机集成与 3D 智能分析系统，完美融合虚拟与现实</p>
+        <div class="tech-grid">
+            <div class="tech-card">
+                <h3>超高速摄像捕捉</h3>
+                <p>工业级高速摄像头多视角集成，精准抓取击球瞬间的杆面动态、触球角度及初始球速，零延迟真实反馈。</p>
+            </div>
+            <div class="tech-card">
+                <h3>AI 弹道预测与分析</h3>
+                <p>内置智能 AI 轨迹核心算法，即时分析球体飞行动态、倒旋、侧旋及球杆动态参数，提供数据驱动的专业改进建议。</p>
+            </div>
+            <div class="tech-card">
+                <h3>1:1 国际球场复刻</h3>
+                <p>基于无人机全景测绘与领先的 3D 渲染引擎，完美还原全球数百个知名高尔夫球场的真实地貌、微地形与植被景观。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 主系统方案展示 -->
+    <section id="simulator" class="product-section">
+        <h2 class="section-title">高端一体化模拟器系统</h2>
+        <p class="section-subtitle">专为私人住宅、高端会所及商业空间量身打造的软硬件标准方案</p>
+        <div class="sys-container">
+            <div class="sys-img">
+                <!-- 建议在此处放置高质量的高尔夫空间实景或3D效果图 -->
+                <img src="https://images.unsplash.com/photo-1593111774240-d529f12cf4bb?auto=format&fit=crop&w=800&q=80" alt="高尔夫模拟器标准套装">
+            </div>
+            <div class="sys-info">
+                <h3>NexGolf Pro 智能一体化机床套装</h3>
+                <p style="margin-bottom: 20px; color: #666;">一站式全配置闭环系统，开箱即用。将精密硬件与沉浸式 3D 软件完美融为一体，带来毫无妥协的室内高尔夫体验。</p>
+                <ul class="sys-features">
+                    <li><strong>核心传感器：</strong>三目超高速鹰眼追踪雷达/相机系统</li>
+                    <li><strong>软件系统：</strong>NexGolf 3D 高清球场库（自带 150+ 真实球场）</li>
+                    <li><strong>多功能控制台：</strong>支持一键触控切换场景，实时展示运动轨迹</li>
+                    <li><strong>安全抗冲击护网：</strong>多层加厚吸音抗打击幕布，安全静音</li>
+                </ul>
+                <a href="#contact" class="btn-consult">获取定制方案报价</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 周边产品及升级配件展示（核心重点） -->
+    <section id="accessories">
+        <h2 class="section-title">高尔夫周边配件及升级选项</h2>
+        <p class="section-subtitle">自由随心组合配件，完美契合您的空间、技术习惯和训练目标</p>
+        <div class="acc-grid">
+            <!-- 配件 1: 发球器 -->
+            <div class="acc-card">
+                <div class="acc-img" style="background: url('https://images.unsplash.com/photo-1587174486073-ae5e5cff23aa?auto=format&fit=crop&w=500&q=80') center/cover;"></div>
+                <div class="acc-body">
+                    <h4>全自动智能发球器</h4>
+                    <p>红外感应自动出球，支持通过触屏或脚踏无级调节出球高度，确保练习节奏流畅不间断。</p>
+                </div>
+            </div>
+            <!-- 配件 2: 打击垫 -->
+            <div class="acc-card">
+                <div class="acc-img" style="background: url('https://images.unsplash.com/photo-1592919505780-303950717480?auto=format&fit=crop&w=500&q=80') center/cover;"></div>
+                <div class="acc-body">
+                    <h4>三层专业高弹打击垫</h4>
+                    <p>长草、短草、沙坑三合一专业草皮模拟，高弹减震底层有效保护手腕关节，还原真实下场触感。</p>
+                </div>
+            </div>
+            <!-- 配件 3: 姿态监控摄像头 -->
+            <div class="acc-card">
+                <div class="acc-img"></div>
+                <div class="acc-body">
+                    <h4>多角度高帧率挥杆监控</h4>
+                    <p>侧面与背面双机位高速对焦，捕捉完整挥杆动作。支持 AI 动作骨骼对齐，辅助纠正站姿。</p>
+                </div>
+            </div>
+            <!-- 配件 4: 可调节浮动地台 -->
+            <div class="acc-card">
+                <div class="acc-img"></div>
+                <div class="acc-body">
+                    <h4>液压动力浮动平衡台</h4>
+                    <p>根据游戏/球场软件中的实际落点地形，自动调整倾斜角度，真实模拟上坡、下坡及侧坡站位。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 统一品牌全流程服务保障 -->
+    <section id="services" class="service-section">
+        <h2 class="section-title">统一品牌直销 尊享一站式服务</h2>
+        <p class="section-subtitle" style="color: #a4b0be;">从空间规划到售后升级，标准化流程让您全程无忧</p>
+        <div class="service-grid">
+            <div class="service-item">
+                <h4>1. 售前空间规划</h4>
+                <p>专业团队一对一远程或上门测量，提供 3D 空间平面布局设计与设备选型建议。</p>
+            </div>
+            <div class="service-item">
+                <h4>2. 标准化物流</h4>
+                <p>全套设备精细化打包，安全专线直达。跨境出海运输提供全套清关及商检保障。</p>
+            </div>
+            <div class="service-item">
+                <h4>3. 专业安装调试</h4>
+                <p>资深工程师现场或远程指导安装，进行传感器精密校准与软件系统全面调试。</p>
+            </div>
+            <div class="service-item">
+                <h4>4. 终身软件升级</h4>
+                <p>核心算法与系统永久在线更新，持续拓展全球全新复刻球场库及全新娱乐玩法。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 询价与客户联系表单 -->
+    <section id="contact" class="contact-section">
+        <h2 class="section-title">开启您的智能高尔夫之旅</h2>
+        <p class="section-subtitle">请填写以下信息，我们的高尔夫空间规划专家将在24小时内与您联系</p>
+        <div class="contact-container">
+            <form action="#" method="POST" onsubmit="alert('您的预约信息已成功提交！我们的团队将尽快联系您。'); return false;">
+                <div class="form-group">
+                    <label for="name">您的姓名 *</label>
+                    <input type="text" id="name" required placeholder="请输入您的姓名">
+                </div>
+                <div class="form-group">
+                    <label for="email">电子邮箱 *</label>
+                    <input type="email" id="email" required placeholder="example@domain.com">
+                </div>
+                <div class="form-group">
+                    <label for="phone">联系电话/WhatsApp *</label>
+                    <input type="tel" id="phone" required placeholder="包含区号的电话号码">
+                </div>
+                <div class="form-group">
+                    <label for="type">应用场景</label>
+                    <select id="type">
+                        <option value="residential">私人住宅 / 居家娱乐</option>
+                        <option value="commercial">商业球馆 / 室内娱乐中心</option>
+                        <option value="club">企业会所 / 酒店度假村</option>
+                        <option value="accessories">纯周边配件采购（发球器/打击垫等）</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="message">您的具体需求描述</label>
+                    <textarea id="message" rows="4" placeholder="例如：空间尺寸、需要的特定配件，或期望的交货时间等..."></textarea>
+                </div>
+                <button type="submit" class="btn-submit">提交需求 · 获取方案</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer>
+        <p>&copy; 2026 NexGolf Simulator Inc. 保留所有权利。</p>
+        <p style="font-size: 12px; margin-top: 5px;">设计参考 RG Golf 经典架构 · 打造极简出海营销样板</p>
+    </footer>
+
+</body>
+</html>

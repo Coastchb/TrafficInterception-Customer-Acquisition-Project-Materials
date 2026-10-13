@@ -1,0 +1,31 @@
+# Cloudflare deployment configuration
+# Docs: https://developers.cloudflare.com/workers/static-assets/
+
+name = "neaglegolf-website"
+compatibility_date = "2025-08-25"
+
+# Worker entry that enforces HTTPS + canonical host (www -> apex),
+# then serves the static assets in ./dist via env.ASSETS.fetch().
+main = "worker.js"
+
+# Static Assets deployment: serve ./dist as a static site on a Worker.
+# Works with both:
+#   - `npx wrangler deploy`            (Workers project — what the panel uses)
+#   - `npx wrangler pages deploy dist` (Pages project)
+[assets]
+directory = "./dist"
+# 404 handling is done inside worker.js (fall back to /404.html with status 404),
+# so the edge-level 404-page machinery is disabled to avoid 307/500 quirks.
+not_found_handling = "none"
+
+# Optional: redirect old SPA-style hash URLs to the new clean static URLs.
+# Uncomment if you previously linked to #category/... / #detail/... anywhere.
+# [[redirects]]
+# from = "/#category/simulators"
+# to = "/golf-simulators/"
+# status = 301
+#
+# [[redirects]]
+# from = "/#cases"
+# to = "/case-studies/"
+# status = 301
