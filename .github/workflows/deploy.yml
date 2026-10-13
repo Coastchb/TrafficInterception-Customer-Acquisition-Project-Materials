@@ -3,6 +3,11 @@ name: Deploy NEAGLE GOLF website
 # Replaces Cloudflare Workers Builds, whose "Initializing build environment"
 # step kept failing with an internal error on this repository.
 #
+# This workflow uses SPARSE CHECKOUT: the repository pack is ~434 MB because of
+# large product media (mp4/wav/xlsx/png) that the site build never reads. Only
+# website/ + the 7 spec HTML files under products/ are needed, so we fetch just
+# those (~38 MB instead of ~434 MB).
+#
 # Required repository secrets (Settings -> Secrets and variables -> Actions):
 #   CLOUDFLARE_API_TOKEN   - API token with the "Edit Cloudflare Workers" template
 #   CLOUDFLARE_ACCOUNT_ID  - the account id shown in the Cloudflare dashboard URL
@@ -13,6 +18,8 @@ name: Deploy NEAGLE GOLF website
 on:
   push:
     branches: [main]
+    # Only rebuild for changes that can actually affect the site.
+    # products/*.html are embedded into product pages by build.mjs.
     paths:
       - '高尔夫模拟器项目/website/**'
       - '高尔夫模拟器项目/products/**/*.html'
@@ -31,8 +38,16 @@ jobs:
       run:
         working-directory: 高尔夫模拟器项目/website
     steps:
-      - name: Checkout
+      # blob:none + sparse-checkout avoids downloading the large media blobs.
+      # Non-cone mode is required so we can use glob patterns.
+      - name: Checkout (sparse)
         uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            高尔夫模拟器项目/website
+            高尔夫模拟器项目/products/**/*.html
 
       - name: Set up Node
         uses: actions/setup-node@v4
@@ -41,6 +56,19 @@ jobs:
 
       - name: Build static site
         run: node build.mjs
+
+      # build.mjs silently degrades if a specs HTML is missing: embedSpecs()
+      # returns an empty string via fs.existsSync() and the product page falls
+      # back to a generic table — no error, no warning. Guard against that so a
+      # broken sparse-checkout can never ship unnoticed.
+      - name: Verify embedded specs
+        run: |
+          count=$(grep -rl "specs-wrap" dist --include="*.html" | wc -l | tr -d ' ')
+          echo "pages with embedded specs: $count"
+          if [ "$count" -lt 7 ]; then
+            echo "::error::expected >=7 product pages with embedded specs, got $count — sparse checkout likely missed products/**/*.html"
+            exit 1
+          fi
 
       # --config is REQUIRED: wrangler searches parent directories for
       # wrangler.jsonc and would otherwise pick up an unrelated config.
