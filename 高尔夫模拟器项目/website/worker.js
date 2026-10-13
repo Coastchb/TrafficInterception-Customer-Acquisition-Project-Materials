@@ -32,6 +32,23 @@ export default {
       }
     }
 
+    // /chatSend, /chatMessages, /profileSave, /profileGet belong to an external
+    // Cloud Run proxy (PROXY_BASE), never to this site. Googlebot discovered
+    // /chatSend while executing page JS and recorded it as a 404. 410 Gone tells
+    // crawlers the URL is permanently gone, which clears it far faster than a 404.
+    const NON_PAGE_PATHS = new Set([
+      '/chatSend',
+      '/chatMessages',
+      '/profileSave',
+      '/profileGet',
+    ]);
+    if (NON_PAGE_PATHS.has(url.pathname)) {
+      return new Response('410 - Gone', {
+        status: 410,
+        headers: { 'Content-Type': 'text/plain; charset=utf-8' },
+      });
+    }
+
     // workers.dev preview & everything else — serve static assets
     let res;
     try {

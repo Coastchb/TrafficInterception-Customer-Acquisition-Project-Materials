@@ -11,6 +11,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import vm from 'node:vm';
+import { execSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -213,6 +214,7 @@ function nav(active = '') {
             ${item('/golf-ball-dispensers/', 'Dispensers', 'dispenserMachines')}
             ${item('/golf-simulators/compare/', 'Compare', 'compare')}
             ${item('/case-studies/', 'Case Studies')}
+            ${item('/catalog/', 'Catalog', 'catalog')}
             ${item('/about/', 'About')}
             <span class="text-white/30">|</span>
             <a href="https://api.whatsapp.com/send?phone=8613261563523" target="_blank" class="flex items-center space-x-1 text-white hover:text-golfGreen transition-colors">
@@ -251,6 +253,7 @@ function footer() {
                     <span class="text-xs font-semibold text-white tracking-wider block uppercase">Explore</span>
                     <a href="/golf-simulators/" class="block text-zinc-200 hover:text-golfGreen transition-colors">Golf Simulators</a>
                     <a href="/golf-ball-dispensers/" class="block text-zinc-200 hover:text-golfGreen transition-colors">Ball Dispensers</a>
+                    <a href="/catalog/" class="block text-zinc-200 hover:text-golfGreen transition-colors">Full Catalog</a>
                     <a href="/golf-simulators/cost/" class="block text-zinc-200 hover:text-golfGreen transition-colors">Simulator Cost</a>
                     <a href="/golf-simulators/room-size/" class="block text-zinc-200 hover:text-golfGreen transition-colors">Room Size</a>
                     <a href="/golf-simulators/installation/" class="block text-zinc-200 hover:text-golfGreen transition-colors">Installation</a>
@@ -645,7 +648,7 @@ addPage('index.html', {
       ${catalogDb.simulators.items.slice(0,3).map(p => productCard('simulators', p)).join('')}
       ${catalogDb.dispenserMachines.items.map(p => productCard('dispenserMachines', p)).join('')}
     </div>
-    <div class="mt-10"><a href="/golf-simulators/" class="btn-ghost rounded-full px-8 py-3.5 text-sm font-semibold inline-flex items-center gap-2"><i class="fa-solid fa-arrow-right"></i> Browse Complete Catalog</a></div>
+    <div class="mt-10"><a href="/catalog/" class="btn-ghost rounded-full px-8 py-3.5 text-sm font-semibold inline-flex items-center gap-2"><i class="fa-solid fa-arrow-right"></i> Browse Complete Catalog</a></div>
   </section>
 
   <section class="max-w-7xl mx-auto px-4 md:px-6 pt-20 md:pt-28">
@@ -1268,15 +1271,40 @@ for (const { relPath, opts } of pages) {
 }
 
 // sitemap.xml
-const LASTMOD = new Date().toISOString().slice(0, 10);
+// <lastmod> must say when the CONTENT changed — not when the site was rebuilt.
+// Stamping every URL with "today" on each deploy (even for unrelated changes like
+// a PDF tweak) makes the signal unreliable, and Google then discards lastmod —
+// its main hint for deciding which URLs to crawl first.
+function contentLastMod() {
+  try {
+    const out = execSync('git log -1 --format=%cI -- . ../products', {
+      cwd: ROOT, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'],
+    }).trim();
+    if (/^\d{4}-\d{2}-\d{2}/.test(out)) return out.slice(0, 10);
+  } catch {
+    /* no git history available (shallow/CI checkout) — fall back to build date */
+  }
+  return new Date().toISOString().slice(0, 10);
+}
+const LASTMOD = contentLastMod();
 const sm = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${sitemapUrls.map(u => `  <url><loc>${u}</loc><lastmod>${LASTMOD}</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>`).join('\n')}
 </urlset>`;
 fs.writeFileSync(path.join(DIST, 'sitemap.xml'), sm);
 
-// robots.txt
-fs.writeFileSync(path.join(DIST, 'robots.txt'), `User-agent: *\nAllow: /\nSitemap: ${SITE}/sitemap.xml\n`);
+// robots.txt — /chat* and /profile* are endpoints of an external Cloud Run proxy,
+// not pages of this site. Disallow them so crawlers never request them (this is
+// what surfaced https://neaglegolf.com/chatSend as a 404 in Search Console).
+fs.writeFileSync(path.join(DIST, 'robots.txt'), `User-agent: *
+Allow: /
+Disallow: /chatSend
+Disallow: /chatMessages
+Disallow: /profileSave
+Disallow: /profileGet
+
+Sitemap: ${SITE}/sitemap.xml
+`);
 
 // 404 fallback (Cloudflare Pages serves 404.html) — noindex, no canonical
 fs.writeFileSync(path.join(DIST, '404.html'), page({
