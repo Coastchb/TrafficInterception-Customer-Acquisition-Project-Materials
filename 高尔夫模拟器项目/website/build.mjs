@@ -186,6 +186,28 @@ function embedSpecs(productId) {
 const footerMatch = html.match(/<template id="global-footer-template">([\s\S]*?)<\/template>/);
 const footerInner = footerMatch ? footerMatch[1] : '';
 
+// The SPA footer template is the single source of truth for concierge contacts.
+// Static pages use a different footer layout (brand copy + Explore column), so
+// we read the WhatsApp links from the template instead of hard-coding them here.
+// Otherwise editing index.html never changes the deployed pages.
+const whatsappContacts = [...footerInner.matchAll(
+  /<a\s+href="(https:\/\/api\.whatsapp\.com\/send\?phone=\d+)"[^>]*>([^<]+)<\/a>/g
+)].map(([, href, label]) => ({ href, label: label.trim() }));
+
+if (!whatsappContacts.length) {
+  whatsappContacts.push({
+    href: 'https://api.whatsapp.com/send?phone=8613261563523',
+    label: '+86 132 6156 3523 (Coast Cao)',
+  });
+}
+
+const whatsappFooter = `<div class="flex items-start gap-1.5">
+                        <i class="fa-brands fa-whatsapp text-golfGreen leading-5"></i>
+                        <div class="flex flex-col gap-1">
+${whatsappContacts.map(c => `                            <a href="${c.href}" target="_blank" class="text-zinc-200 hover:text-golfGreen transition-colors leading-5 whitespace-nowrap">${c.label}</a>`).join('\n')}
+                        </div>
+                    </div>`;
+
 /* ── 2. Helpers ────────────────────────────────────────────────── */
 const slugify = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 const esc = (s = '') => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -242,9 +264,7 @@ function footer() {
                 </div>
                 <div class="space-y-3">
                     <span class="text-xs font-semibold text-white tracking-wider block uppercase">Direct Concierge Contact</span>
-                    <a href="https://api.whatsapp.com/send?phone=8613261563523" target="_blank" class="text-zinc-200 hover:text-golfGreen transition-colors flex items-center gap-1.5">
-                        <i class="fa-brands fa-whatsapp text-golfGreen"></i> +86 13261563523
-                    </a>
+                    ${whatsappFooter}
                     <a href="mailto:service@neaglegolf.com" class="text-zinc-200 hover:text-golfGreen transition-colors flex items-center gap-1.5">
                         <i class="fa-solid fa-envelope text-golfGreen"></i> service@neaglegolf.com
                     </a>
